@@ -94,24 +94,28 @@ class MainActivity : AppCompatActivity() {
      */
     private fun clickLemonImage() {
 
-        if (lemonadeState == SELECT) {
-            lemonadeState = SQUEEZE
-            lemonSize = lemonTree.pick()
-            squeezeCount = 0
-
-        } else if (lemonadeState == SQUEEZE) {
-            squeezeCount++
-            lemonSize--
-            if (lemonSize == 0) {
-                lemonadeState = DRINK
-                lemonSize = -1
+        when (lemonadeState) {
+            SELECT -> {
+                lemonadeState = SQUEEZE
+                lemonSize = lemonTree.pick()
+                squeezeCount = 0
             }
-        } else if (lemonadeState == DRINK) {
-            lemonadeState = RESTART
-        } else {
-            lemonadeState = SELECT
-        }
+            SQUEEZE -> {
+                squeezeCount++
+                lemonSize--
+                if (lemonSize == 0) {
+                    lemonadeState = DRINK
+                    lemonSize = -1
+                }
+            }
+            DRINK -> {
+                lemonadeState = RESTART
+            }
+            else -> {
+                lemonadeState = SELECT
+            }
 
+        }
         setViewElements()
     }
 
@@ -121,24 +125,24 @@ class MainActivity : AppCompatActivity() {
     private fun setViewElements() {
         val textAction: TextView = findViewById(R.id.text_action)
 
-        val textId:Int
-        val imageId:Int
+        val textId: Int
+        val imageId: Int
         when (lemonadeState) {
             SELECT -> {
-                textId=R.string.lemon_select
-                imageId=R.drawable.lemon_tree
+                textId = R.string.lemon_select
+                imageId = R.drawable.lemon_tree
             }
             SQUEEZE -> {
-                textId=R.string.lemon_squeeze
-                imageId=R.drawable.lemon_squeeze
+                textId = R.string.lemon_squeeze
+                imageId = R.drawable.lemon_squeeze
             }
             DRINK -> {
-                textId=R.string.lemon_drink
-                imageId=R.drawable.lemon_drink
+                textId = R.string.lemon_drink
+                imageId = R.drawable.lemon_drink
             }
             else -> {
-                textId=R.string.lemon_empty_glass
-                imageId=R.drawable.lemon_restart
+                textId = R.string.lemon_empty_glass
+                imageId = R.drawable.lemon_restart
             }
         }
         textAction.setText(textId)
